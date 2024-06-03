@@ -1,9 +1,7 @@
-// ignore_for_file: unused_element
-
 import '../../domain/entities/product.dart';
 import 'product_model.dart';
 
-extension on ProductModel {
+extension ProductModelMapper on ProductModel {
   Product toEntity() => Product(
         id: id,
         name: name,
@@ -13,7 +11,7 @@ extension on ProductModel {
       );
 }
 
-extension on Product {
+extension ProductEntityMapper on Product {
   ProductModel toModel() => ProductModel(
         id: id,
         name: name,
