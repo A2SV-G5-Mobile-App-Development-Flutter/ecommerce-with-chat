@@ -42,13 +42,27 @@ class ProductRepositoryImpl extends ProductRepository {
   }
 
   @override
-  Future<Either<Failure, Product>> getProduct(String id) {
-    // TODO: implement getProduct
-    throw UnimplementedError();
+  Future<Either<Failure, Product>> getProduct(String id) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        final product = await _productRemoteDataSource.getProduct(id);
+        _productLocalDataSource.cacheProduct(product);
+        return Right(product);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      }
+    } else {
+      try {
+        final product = await _productLocalDataSource.getProduct(id);
+        return Right(product);
+      } on CacheException catch (e) {
+        return Left(CacheFailure(e.message));
+      }
+    }
   }
 
   @override
-  Future<Either<Failure, Product>> createProduct(Product product) {
+  Future<Either<Failure, Product>> createProduct(Product product) async {
     // TODO: implement createProduct
     throw UnimplementedError();
   }

@@ -79,6 +79,39 @@ void main() {
         expect(result, const Left(ServerFailure('Server Exception')));
       });
     });
+
+    group('getProduct', () {
+      test('should get product from remote data source', () async {
+        when(mockProductRemoteDataSource.getProduct(tProductId))
+            .thenAnswer((_) async => tProduct);
+
+        final result = await productRepository.getProduct(tProductId);
+
+        expect(result, const Right(tProduct));
+        verify(mockProductRemoteDataSource.getProduct(tProductId));
+      });
+
+      test('should cache product from remote data source', () async {
+        when(mockProductRemoteDataSource.getProduct(tProductId))
+            .thenAnswer((_) async => tProduct);
+
+        await productRepository.getProduct(tProductId);
+
+        verify(mockProductRemoteDataSource.getProduct(tProductId));
+        verify(mockProductLocalDataSource.cacheProduct(tProduct));
+      });
+
+      test(
+          'should return server failure when remote data source throws server exception',
+          () async {
+        when(mockProductRemoteDataSource.getProduct(tProductId))
+            .thenThrow(const ServerException(message: 'Server Exception'));
+
+        final result = await productRepository.getProduct(tProductId);
+
+        expect(result, const Left(ServerFailure('Server Exception')));
+      });
+    });
   });
 
   group('when network is not available', () {
@@ -110,6 +143,35 @@ void main() {
             .thenThrow(const CacheException(message: 'Cache Exception'));
 
         final result = await productRepository.getProducts();
+
+        expect(result, const Left(CacheFailure('Cache Exception')));
+      });
+    });
+
+    group('getProduct', () {
+      test('should get product from local data source', () async {
+        when(mockProductLocalDataSource.getProduct(tProductId))
+            .thenAnswer((_) async => tProduct);
+
+        final result = await productRepository.getProduct(tProductId);
+
+        expect(result, const Right(tProduct));
+        verify(mockProductLocalDataSource.getProduct(tProductId));
+      });
+
+      test('should not call remote data source', () async {
+        await productRepository.getProduct(tProductId);
+
+        verifyZeroInteractions(mockProductRemoteDataSource);
+      });
+
+      test(
+          'should return cache failure when local data source throws cache exception',
+          () async {
+        when(mockProductLocalDataSource.getProduct(tProductId))
+            .thenThrow(const CacheException(message: 'Cache Exception'));
+
+        final result = await productRepository.getProduct(tProductId);
 
         expect(result, const Left(CacheFailure('Cache Exception')));
       });
