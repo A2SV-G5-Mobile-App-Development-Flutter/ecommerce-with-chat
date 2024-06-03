@@ -80,9 +80,18 @@ class ProductRepositoryImpl extends ProductRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> deleteProduct(String id) {
-    // TODO: implement deleteProduct
-    throw UnimplementedError();
+  Future<Either<Failure, Unit>> deleteProduct(String id) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        await _productRemoteDataSource.deleteProduct(id);
+        _productLocalDataSource.deleteProduct(id);
+        return const Right(unit);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      }
+    } else {
+      return const Left(NetworkFailure());
+    }
   }
 
   @override
