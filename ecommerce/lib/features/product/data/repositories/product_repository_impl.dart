@@ -21,15 +21,14 @@ class ProductRepositoryImpl extends ProductRepository {
         _productLocalDataSource = localDataSource;
 
   @override
-  Future<Either<Failure, Product>> createProduct(Product product) {
-    // TODO: implement createProduct
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Either<Failure, Unit>> deleteProduct(String id) {
-    // TODO: implement deleteProduct
-    throw UnimplementedError();
+  Future<Either<Failure, List<Product>>> getProducts() async {
+    if (await _networkInfo.isConnected) {
+      final products = await _productRemoteDataSource.getProducts();
+      _productLocalDataSource.cacheProducts(products);
+      return Right(products);
+    } else {
+      throw UnimplementedError();
+    }
   }
 
   @override
@@ -39,8 +38,14 @@ class ProductRepositoryImpl extends ProductRepository {
   }
 
   @override
-  Future<Either<Failure, List<Product>>> getProducts() {
-    // TODO: implement getProducts
+  Future<Either<Failure, Product>> createProduct(Product product) {
+    // TODO: implement createProduct
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, Unit>> deleteProduct(String id) {
+    // TODO: implement deleteProduct
     throw UnimplementedError();
   }
 

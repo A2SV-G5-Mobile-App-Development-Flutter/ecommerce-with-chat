@@ -42,10 +42,6 @@ class _FakeProductModel_0 extends _i1.SmartFake implements _i2.ProductModel {
 /// See the documentation for Mockito's code generation for more information.
 class MockProductRemoteDataSource extends _i1.Mock
     implements _i3.ProductRemoteDataSource {
-  MockProductRemoteDataSource() {
-    _i1.throwOnMissingStub(this);
-  }
-
   @override
   _i4.Future<List<_i2.ProductModel>> getProducts() => (super.noSuchMethod(
         Invocation.method(
@@ -53,6 +49,8 @@ class MockProductRemoteDataSource extends _i1.Mock
           [],
         ),
         returnValue:
+            _i4.Future<List<_i2.ProductModel>>.value(<_i2.ProductModel>[]),
+        returnValueForMissingStub:
             _i4.Future<List<_i2.ProductModel>>.value(<_i2.ProductModel>[]),
       ) as _i4.Future<List<_i2.ProductModel>>);
 
@@ -63,6 +61,14 @@ class MockProductRemoteDataSource extends _i1.Mock
           [id],
         ),
         returnValue: _i4.Future<_i2.ProductModel>.value(_FakeProductModel_0(
+          this,
+          Invocation.method(
+            #getProduct,
+            [id],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.ProductModel>.value(_FakeProductModel_0(
           this,
           Invocation.method(
             #getProduct,
@@ -85,6 +91,14 @@ class MockProductRemoteDataSource extends _i1.Mock
             [product],
           ),
         )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.ProductModel>.value(_FakeProductModel_0(
+          this,
+          Invocation.method(
+            #createProduct,
+            [product],
+          ),
+        )),
       ) as _i4.Future<_i2.ProductModel>);
 
   @override
@@ -95,6 +109,14 @@ class MockProductRemoteDataSource extends _i1.Mock
           [product],
         ),
         returnValue: _i4.Future<_i2.ProductModel>.value(_FakeProductModel_0(
+          this,
+          Invocation.method(
+            #updateProduct,
+            [product],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.ProductModel>.value(_FakeProductModel_0(
           this,
           Invocation.method(
             #updateProduct,
@@ -119,10 +141,6 @@ class MockProductRemoteDataSource extends _i1.Mock
 /// See the documentation for Mockito's code generation for more information.
 class MockProductLocalDataSource extends _i1.Mock
     implements _i5.ProductLocalDataSource {
-  MockProductLocalDataSource() {
-    _i1.throwOnMissingStub(this);
-  }
-
   @override
   _i4.Future<List<_i2.ProductModel>> getProducts() => (super.noSuchMethod(
         Invocation.method(
@@ -130,6 +148,8 @@ class MockProductLocalDataSource extends _i1.Mock
           [],
         ),
         returnValue:
+            _i4.Future<List<_i2.ProductModel>>.value(<_i2.ProductModel>[]),
+        returnValueForMissingStub:
             _i4.Future<List<_i2.ProductModel>>.value(<_i2.ProductModel>[]),
       ) as _i4.Future<List<_i2.ProductModel>>);
 
@@ -146,36 +166,12 @@ class MockProductLocalDataSource extends _i1.Mock
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.ProductModel>);
-
-  @override
-  _i4.Future<_i2.ProductModel> createProduct(_i2.ProductModel? product) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #createProduct,
-          [product],
-        ),
-        returnValue: _i4.Future<_i2.ProductModel>.value(_FakeProductModel_0(
+        returnValueForMissingStub:
+            _i4.Future<_i2.ProductModel>.value(_FakeProductModel_0(
           this,
           Invocation.method(
-            #createProduct,
-            [product],
-          ),
-        )),
-      ) as _i4.Future<_i2.ProductModel>);
-
-  @override
-  _i4.Future<_i2.ProductModel> updateProduct(_i2.ProductModel? product) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #updateProduct,
-          [product],
-        ),
-        returnValue: _i4.Future<_i2.ProductModel>.value(_FakeProductModel_0(
-          this,
-          Invocation.method(
-            #updateProduct,
-            [product],
+            #getProduct,
+            [id],
           ),
         )),
       ) as _i4.Future<_i2.ProductModel>);
@@ -189,19 +185,38 @@ class MockProductLocalDataSource extends _i1.Mock
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<void> cacheProduct(_i2.ProductModel? product) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #cacheProduct,
+          [product],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<void> cacheProducts(List<_i2.ProductModel>? products) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #cacheProducts,
+          [products],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }
 
 /// A class which mocks [NetworkInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockNetworkInfo extends _i1.Mock implements _i6.NetworkInfo {
-  MockNetworkInfo() {
-    _i1.throwOnMissingStub(this);
-  }
-
   @override
   _i4.Future<bool> get isConnected => (super.noSuchMethod(
         Invocation.getter(#isConnected),
         returnValue: _i4.Future<bool>.value(false),
+        returnValueForMissingStub: _i4.Future<bool>.value(false),
       ) as _i4.Future<bool>);
 }
