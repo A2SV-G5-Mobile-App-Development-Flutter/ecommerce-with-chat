@@ -154,6 +154,40 @@ void main() {
         expect(result, const Left(ServerFailure('Server Exception')));
       });
     });
+
+    group('updateProduct', () {
+      test('should update product from remote data source', () async {
+        when(mockProductRemoteDataSource.updateProduct(tProduct))
+            .thenAnswer((_) async => tProduct);
+
+        final result = await productRepository.updateProduct(tProduct);
+
+        expect(result, const Right(tProduct));
+
+        verify(mockProductRemoteDataSource.updateProduct(tProduct));
+      });
+
+      test('should update cache product from remote data source', () async {
+        when(mockProductRemoteDataSource.updateProduct(tProduct))
+            .thenAnswer((_) async => tProduct);
+
+        await productRepository.updateProduct(tProduct);
+
+        verify(mockProductRemoteDataSource.updateProduct(tProduct));
+        verify(mockProductLocalDataSource.cacheProduct(tProduct));
+      });
+
+      test(
+          'should return server failure when remote data source throws server exception',
+          () async {
+        when(mockProductRemoteDataSource.updateProduct(tProduct))
+            .thenThrow(const ServerException(message: 'Server Exception'));
+
+        final result = await productRepository.updateProduct(tProduct);
+
+        expect(result, const Left(ServerFailure('Server Exception')));
+      });
+    });
   });
 
   group('when network is not available', () {
@@ -230,6 +264,14 @@ void main() {
     group('deleteProduct', () {
       test('should return network failure', () async {
         final result = await productRepository.deleteProduct(tProductId);
+
+        expect(result, const Left(NetworkFailure()));
+      });
+    });
+
+    group('updateProduct', () {
+      test('should return network failure', () async {
+        final result = await productRepository.updateProduct(tProduct);
 
         expect(result, const Left(NetworkFailure()));
       });

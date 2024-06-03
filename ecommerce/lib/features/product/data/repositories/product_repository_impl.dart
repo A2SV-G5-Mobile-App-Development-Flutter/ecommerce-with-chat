@@ -95,8 +95,19 @@ class ProductRepositoryImpl extends ProductRepository {
   }
 
   @override
-  Future<Either<Failure, Product>> updateProduct(Product product) {
-    // TODO: implement updateProduct
-    throw UnimplementedError();
+  Future<Either<Failure, Product>> updateProduct(Product product) async {
+    final productModel = product.toModel();
+
+    if (await _networkInfo.isConnected) {
+      try {
+        await _productRemoteDataSource.updateProduct(productModel);
+        _productLocalDataSource.cacheProduct(productModel);
+        return Right(product);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      }
+    } else {
+      return const Left(NetworkFailure());
+    }
   }
 }
