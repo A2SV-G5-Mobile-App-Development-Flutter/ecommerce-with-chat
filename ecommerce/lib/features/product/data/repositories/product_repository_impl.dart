@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/network/network_info.dart';
 import '../../domain/entities/product.dart';
@@ -23,12 +24,20 @@ class ProductRepositoryImpl extends ProductRepository {
   @override
   Future<Either<Failure, List<Product>>> getProducts() async {
     if (await _networkInfo.isConnected) {
-      final products = await _productRemoteDataSource.getProducts();
-      _productLocalDataSource.cacheProducts(products);
-      return Right(products);
+      try {
+        final products = await _productRemoteDataSource.getProducts();
+        _productLocalDataSource.cacheProducts(products);
+        return Right(products);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      }
     } else {
-      final products = await _productLocalDataSource.getProducts();
-      return Right(products);
+      try {
+        final products = await _productLocalDataSource.getProducts();
+        return Right(products);
+      } on CacheException catch (e) {
+        return Left(CacheFailure(e.message));
+      }
     }
   }
 

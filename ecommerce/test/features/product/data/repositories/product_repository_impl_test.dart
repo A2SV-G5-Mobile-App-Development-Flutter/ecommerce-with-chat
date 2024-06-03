@@ -1,4 +1,6 @@
 import 'package:dartz/dartz.dart';
+import 'package:ecommerce/core/error/exception.dart';
+import 'package:ecommerce/core/error/failure.dart';
 import 'package:ecommerce/core/network/network_info.dart';
 import 'package:ecommerce/features/product/data/data_sources/local/local_data_source.dart';
 import 'package:ecommerce/features/product/data/data_sources/remote/remote_data_source.dart';
@@ -65,6 +67,17 @@ void main() {
         verify(mockProductRemoteDataSource.getProducts());
         verify(mockProductLocalDataSource.cacheProducts(tProducts));
       });
+
+      test(
+          'should return server failure when remote data source throws server exception',
+          () async {
+        when(mockProductRemoteDataSource.getProducts())
+            .thenThrow(const ServerException(message: 'Server Exception'));
+
+        final result = await productRepository.getProducts();
+
+        expect(result, const Left(ServerFailure('Server Exception')));
+      });
     });
   });
 
@@ -88,6 +101,17 @@ void main() {
         await productRepository.getProducts();
 
         verifyZeroInteractions(mockProductRemoteDataSource);
+      });
+
+      test(
+          'should return cache failure when local data source throws cache exception',
+          () async {
+        when(mockProductLocalDataSource.getProducts())
+            .thenThrow(const CacheException(message: 'Cache Exception'));
+
+        final result = await productRepository.getProducts();
+
+        expect(result, const Left(CacheFailure('Cache Exception')));
       });
     });
   });
