@@ -112,6 +112,29 @@ void main() {
         expect(result, const Left(ServerFailure('Server Exception')));
       });
     });
+
+    group('createProduct', () {
+      test('should create product from remote data source', () async {
+        when(mockProductRemoteDataSource.createProduct(tProduct))
+            .thenAnswer((_) async => tProduct);
+
+        final result = await productRepository.createProduct(tProduct);
+
+        expect(result, const Right(tProduct));
+        verify(mockProductRemoteDataSource.createProduct(tProduct));
+      });
+
+      test(
+          'should return server failure when remote data source throws server exception',
+          () async {
+        when(mockProductRemoteDataSource.createProduct(tProduct))
+            .thenThrow(const ServerException(message: 'Server Exception'));
+
+        final result = await productRepository.createProduct(tProduct);
+
+        expect(result, const Left(ServerFailure('Server Exception')));
+      });
+    });
   });
 
   group('when network is not available', () {
@@ -174,6 +197,14 @@ void main() {
         final result = await productRepository.getProduct(tProductId);
 
         expect(result, const Left(CacheFailure('Cache Exception')));
+      });
+    });
+
+    group('createProduct', () {
+      test('should return network failure', () async {
+        final result = await productRepository.createProduct(tProduct);
+
+        expect(result, const Left(NetworkFailure()));
       });
     });
   });

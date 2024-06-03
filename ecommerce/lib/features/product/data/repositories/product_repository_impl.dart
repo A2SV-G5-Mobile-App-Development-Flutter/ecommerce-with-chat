@@ -7,6 +7,7 @@ import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
 import '../data_sources/local/local_data_source.dart';
 import '../data_sources/remote/remote_data_source.dart';
+import '../models/product_mapper.dart';
 
 class ProductRepositoryImpl extends ProductRepository {
   final ProductRemoteDataSource _productRemoteDataSource;
@@ -63,8 +64,19 @@ class ProductRepositoryImpl extends ProductRepository {
 
   @override
   Future<Either<Failure, Product>> createProduct(Product product) async {
-    // TODO: implement createProduct
-    throw UnimplementedError();
+    final productModel = product.toModel();
+
+    if (await _networkInfo.isConnected) {
+      try {
+        await _productRemoteDataSource.createProduct(productModel);
+        _productLocalDataSource.cacheProduct(productModel);
+        return Right(product);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      }
+    } else {
+      return const Left(NetworkFailure());
+    }
   }
 
   @override
