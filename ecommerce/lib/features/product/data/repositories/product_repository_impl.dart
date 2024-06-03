@@ -27,7 +27,8 @@ class ProductRepositoryImpl extends ProductRepository {
       _productLocalDataSource.cacheProducts(products);
       return Right(products);
     } else {
-      throw UnimplementedError();
+      final products = await _productLocalDataSource.getProducts();
+      return Right(products);
     }
   }
 

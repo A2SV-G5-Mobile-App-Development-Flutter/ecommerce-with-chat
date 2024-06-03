@@ -67,4 +67,28 @@ void main() {
       });
     });
   });
+
+  group('when network is not available', () {
+    setUp(() {
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+    });
+
+    group('getProducts', () {
+      test('should get products from local data source', () async {
+        when(mockProductLocalDataSource.getProducts())
+            .thenAnswer((_) async => tProducts);
+
+        final result = await productRepository.getProducts();
+
+        expect(result, const Right(tProducts));
+        verify(mockProductLocalDataSource.getProducts());
+      });
+
+      test('should not call remote data source', () async {
+        await productRepository.getProducts();
+
+        verifyZeroInteractions(mockProductRemoteDataSource);
+      });
+    });
+  });
 }
