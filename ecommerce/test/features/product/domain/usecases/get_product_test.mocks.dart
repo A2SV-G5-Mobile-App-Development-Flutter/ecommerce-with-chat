@@ -115,19 +115,19 @@ class MockProductRepository extends _i1.Mock implements _i3.ProductRepository {
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Product>>);
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.Product>> deleteProduct(String? id) =>
+  _i4.Future<_i2.Either<_i5.Failure, _i2.Unit>> deleteProduct(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteProduct,
           [id],
         ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Product>>.value(
-            _FakeEither_0<_i5.Failure, _i6.Product>(
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i2.Unit>>.value(
+            _FakeEither_0<_i5.Failure, _i2.Unit>(
           this,
           Invocation.method(
             #deleteProduct,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Product>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i2.Unit>>);
 }
