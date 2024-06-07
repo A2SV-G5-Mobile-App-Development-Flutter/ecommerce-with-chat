@@ -112,4 +112,56 @@ void main() {
       verify(mockSharedPreferences.remove(any));
     });
   });
+
+  group('local storage', () {
+    late SharedPreferences sharedPreferences;
+
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      sharedPreferences = await SharedPreferences.getInstance();
+      productLocalDataSource =
+          ProductLocalDataSourceImpl(sharedPreferences: sharedPreferences);
+    });
+
+    test('should return product when getProduct is called after cacheProduct',
+        () async {
+      await productLocalDataSource.cacheProduct(tProduct1);
+
+      final result = await productLocalDataSource.getProduct(tProduct1.id);
+
+      expect(result, tProduct1);
+    });
+
+    test(
+        'should return list of products when getProducts is called after cacheProducts',
+        () async {
+      await productLocalDataSource.cacheProducts(tProducts);
+
+      final result = await productLocalDataSource.getProducts();
+
+      expect(result, tProducts);
+    });
+  });
+
+  group('delete', () {
+    late SharedPreferences sharedPreferences;
+
+    const internalProductCacheKey = 'PRODUCTS_$tProductId1';
+
+    setUp(() async {
+      SharedPreferences.setMockInitialValues(
+          {internalProductCacheKey: tProduct1Fixture});
+      sharedPreferences = await SharedPreferences.getInstance();
+      productLocalDataSource =
+          ProductLocalDataSourceImpl(sharedPreferences: sharedPreferences);
+    });
+
+    test('should remove product from shared preferences', () async {
+      expect(sharedPreferences.containsKey(internalProductCacheKey), true);
+
+      await productLocalDataSource.deleteProduct(tProduct1.id);
+
+      expect(sharedPreferences.containsKey(internalProductCacheKey), false);
+    });
+  });
 }
