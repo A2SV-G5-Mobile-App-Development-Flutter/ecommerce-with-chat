@@ -104,8 +104,6 @@ void main() {
         setUp: () {
           when(updateProduct(const UpdateProductParams(tProduct)))
               .thenAnswer((_) async => const Right(tProduct));
-          when(getAllProducts(NoParams()))
-              .thenAnswer((_) async => const Right(tProducts));
         },
         act: (bloc) => bloc.add(const ProductsProductUpdated(tProduct)),
         expect: () => const [
@@ -119,8 +117,6 @@ void main() {
         setUp: () {
           when(updateProduct(const UpdateProductParams(tProduct)))
               .thenAnswer((_) async => const Left(ServerFailure('error')));
-          when(getAllProducts(NoParams()))
-              .thenAnswer((_) async => const Right(tProducts));
         },
         act: (bloc) => bloc.add(const ProductsProductUpdated(tProduct)),
         expect: () =>
@@ -134,8 +130,6 @@ void main() {
         setUp: () {
           when(deleteProduct(DeleteProductParams(tProduct.id)))
               .thenAnswer((_) async => const Right(unit));
-          when(getAllProducts(NoParams()))
-              .thenAnswer((_) async => const Right(tProducts));
         },
         act: (bloc) => bloc.add(const ProductsProductDeleted(tProduct)),
         expect: () => [
@@ -149,8 +143,6 @@ void main() {
         setUp: () {
           when(deleteProduct(DeleteProductParams(tProduct.id)))
               .thenAnswer((_) async => const Left(ServerFailure('error')));
-          when(getAllProducts(NoParams()))
-              .thenAnswer((_) async => const Right(tProducts));
         },
         act: (bloc) => bloc.add(const ProductsProductDeleted(tProduct)),
         expect: () =>
