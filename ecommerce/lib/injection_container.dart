@@ -16,42 +16,45 @@ import 'features/product/domain/usecases/get_all_products.dart';
 import 'features/product/domain/usecases/update_product.dart';
 import 'features/product/presentation/bloc/product/product_bloc.dart';
 
-// service locator
-final sl = GetIt.instance;
+final serviceLocator = GetIt.instance;
 
 Future<void> init() async {
   //! Features
   //! Feature_#1 (Product) -----------------------------------------------------
 
   // Bloc
-  sl.registerFactory(() => ProductsBloc(
-      createProduct: sl(),
-      updateProduct: sl(),
-      getAllProducts: sl(),
-      deleteProduct: sl()));
+  serviceLocator.registerFactory(() => ProductsBloc(
+      createProduct: serviceLocator(),
+      updateProduct: serviceLocator(),
+      getAllProducts: serviceLocator(),
+      deleteProduct: serviceLocator()));
 
   // Use cases
-  sl.registerLazySingleton(() => CreateProduct(sl()));
-  sl.registerLazySingleton(() => UpdateProduct(sl()));
-  sl.registerLazySingleton(() => DeleteProduct(sl()));
-  sl.registerLazySingleton(() => GetAllProducts(sl()));
+  serviceLocator.registerLazySingleton(() => CreateProduct(serviceLocator()));
+  serviceLocator.registerLazySingleton(() => UpdateProduct(serviceLocator()));
+  serviceLocator.registerLazySingleton(() => DeleteProduct(serviceLocator()));
+  serviceLocator.registerLazySingleton(() => GetAllProducts(serviceLocator()));
 
   // Repository
-  sl.registerLazySingleton<ProductRepository>(() => ProductRepositoryImpl(
-      networkInfo: sl(), remoteDataSource: sl(), localDataSource: sl()));
+  serviceLocator.registerLazySingleton<ProductRepository>(() =>
+      ProductRepositoryImpl(
+          networkInfo: serviceLocator(),
+          remoteDataSource: serviceLocator(),
+          localDataSource: serviceLocator()));
 
   // Data
-  sl.registerLazySingleton<ProductLocalDataSource>(
-      () => ProductLocalDataSourceImpl(sharedPreferences: sl()));
-  sl.registerLazySingleton<ProductRemoteDataSource>(
-      () => ProductRemoteDataSourceImpl(client: sl()));
+  serviceLocator.registerLazySingleton<ProductLocalDataSource>(
+      () => ProductLocalDataSourceImpl(sharedPreferences: serviceLocator()));
+  serviceLocator.registerLazySingleton<ProductRemoteDataSource>(
+      () => ProductRemoteDataSourceImpl(client: serviceLocator()));
 
   //! Core ---------------------------------------------------------------------
-  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
+  serviceLocator.registerLazySingleton<NetworkInfo>(
+      () => NetworkInfoImpl(serviceLocator()));
 
   //! External -----------------------------------------------------------------
   final sharedPreferences = await SharedPreferences.getInstance();
-  sl.registerLazySingleton(() => sharedPreferences);
-  sl.registerLazySingleton(() => InternetConnectionChecker());
-  sl.registerLazySingleton(() => http.Client());
+  serviceLocator.registerLazySingleton(() => sharedPreferences);
+  serviceLocator.registerLazySingleton(() => InternetConnectionChecker());
+  serviceLocator.registerLazySingleton(() => http.Client());
 }
