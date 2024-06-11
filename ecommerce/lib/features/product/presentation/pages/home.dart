@@ -1,32 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/presentation/routes/routes.dart';
 import '../../domain/entities/product.dart';
 import '../widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
-  final products = [
-    const Product(
+  final products = const [
+    Product(
         id: 'id',
         name: 'HP Victus',
         description: 'Personal Computer',
         price: 123.45,
         imageUrl:
             'https://www.omen.com/content/dam/sites/omen/worldwide/laptops/2022-victus-15-intel/Hero%20Image%203.png'),
-    const Product(
+    Product(
         id: 'id',
         name: 'HP Victus 16',
         description: 'Gaming Laptop',
         price: 123.45,
         imageUrl:
             'https://www.omen.com/content/dam/sites/omen/worldwide/laptops/2022-victus-15-intel/Hero%20Image%203.png'),
-    const Product(
+    Product(
         id: 'id',
         name: 'HP Victus 16',
         description: 'Gaming Laptop',
         price: 123.45,
         imageUrl:
             'https://www.omen.com/content/dam/sites/omen/worldwide/laptops/2022-victus-15-intel/Hero%20Image%203.png'),
-    const Product(
+    Product(
         id: 'id',
         name: 'HP Victus 16',
         description: 'Gaming Laptop',
@@ -34,7 +36,7 @@ class HomePage extends StatelessWidget {
         imageUrl:
             'https://www.omen.com/content/dam/sites/omen/worldwide/laptops/2022-victus-15-intel/Hero%20Image%203.png'),
   ];
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +75,10 @@ class HomePage extends StatelessWidget {
                     final product = products[index];
 
                     return ProductCard(
-                        product: product, onProductSelected: (product) {});
+                        product: product,
+                        onProductSelected: (product) {
+                          context.push(Routes.productDetail, extra: product);
+                        });
                   },
                 ),
               ),
@@ -84,7 +89,9 @@ class HomePage extends StatelessWidget {
 
       // Floating Action Button
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          context.push(Routes.addProduct);
+        },
         child: const Icon(Icons.add),
       ),
     );

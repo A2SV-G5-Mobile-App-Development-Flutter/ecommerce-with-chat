@@ -12,7 +12,7 @@ class UpdateProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Product'),
+        title: const Text('Update Product'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(18),

@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/presentation/routes/routes.dart';
 import '../../../../core/presentation/widgets/widgets.dart';
 import '../../domain/entities/product.dart';
 import '../widgets/widgets.dart';
@@ -32,7 +34,11 @@ class ProductDetailPage extends StatelessWidget {
               top: 20,
               left: 0,
               child: IconButton(
-                  onPressed: () {}, icon: const Icon(Icons.arrow_back)),
+                onPressed: () {
+                  context.pop();
+                },
+                icon: const Icon(Icons.arrow_back),
+              ),
             ),
           ],
         ),
@@ -88,7 +94,9 @@ class ProductDetailPage extends StatelessWidget {
                     text: 'Delete',
                   ),
                   Button(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.push(Routes.updateProduct, extra: product);
+                    },
                     color: Theme.of(context).primaryColor,
                     text: 'Update',
                   ),
