@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'bloc_observer.dart';
 import 'core/presentation/routes/router.dart';
 import 'injection_container.dart' as di;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  Bloc.observer = SimpleBlocObserver();
+
   await di.init();
   runApp(const App());
 }
