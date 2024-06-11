@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/widgets/widgets.dart';
 import '../../domain/entities/product.dart';
-import '../widgets/product_description_rating.dart';
-import '../widgets/product_name_price.dart';
+import '../widgets/widgets.dart';
 
 class ProductDetailPage extends StatelessWidget {
   final Product product;

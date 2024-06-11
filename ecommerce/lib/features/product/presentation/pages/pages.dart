@@ -1,3 +1,4 @@
+export 'add_product.dart';
 export 'home.dart';
 export 'product_detail.dart';
-export 'search.dart';
+export 'update_product.dart';

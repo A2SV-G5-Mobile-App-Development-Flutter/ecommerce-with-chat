@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/product.dart';
-import '../widgets/product_card.dart';
-import '../widgets/user_header.dart';
+import '../widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
   final products = [
