@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class UserHeader extends StatelessWidget {
-  const UserHeader({super.key});
+  final String userName;
+
+  const UserHeader({super.key, required this.userName});
 
   @override
   Widget build(BuildContext context) {
@@ -30,21 +32,21 @@ class UserHeader extends StatelessWidget {
               const SizedBox(width: 10),
 
               // Greetings
-              const Column(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('July 14, 2024',
+                  const Text('July 14, 2024',
                       style: TextStyle(fontSize: 12, color: Colors.black54)),
-                  SizedBox(height: 3),
+                  const SizedBox(height: 3),
                   Row(
                     children: [
-                      Text('Hello, ',
+                      const Text('Hello, ',
                           style: TextStyle(
                             fontSize: 18,
                           )),
-                      Text('John!',
-                          style: TextStyle(
+                      Text('$userName!',
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           )),

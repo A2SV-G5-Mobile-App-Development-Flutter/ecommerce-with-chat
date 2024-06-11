@@ -46,7 +46,7 @@ class HomePage extends StatelessWidget {
           child: Column(
             children: [
               // Header
-              const UserHeader(),
+              const UserHeader(userName: 'John'),
               const SizedBox(height: 20),
 
               // Title
@@ -86,7 +86,7 @@ class HomePage extends StatelessWidget {
       // Floating Action Button
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
