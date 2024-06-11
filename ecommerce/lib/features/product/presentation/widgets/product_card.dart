@@ -1,6 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/product.dart';
+import 'product_description_rating.dart';
+import 'product_name_price.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -21,8 +24,8 @@ class ProductCard extends StatelessWidget {
             // Image
             SizedBox(
               height: 150,
-              child: Image.network(
-                product.imageUrl,
+              child: CachedNetworkImage(
+                imageUrl: product.imageUrl,
                 fit: BoxFit.cover,
               ),
             ),
@@ -40,33 +43,14 @@ class ProductCard extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    // Name and price
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(product.name,
-                            style: Theme.of(context).textTheme.titleLarge),
-                        Text(
-                          '\$${product.price.toString()}',
-                        ),
-                      ],
-                    ),
+                    ProductNamePrice(name: product.name, price: product.price),
                     const SizedBox(height: 10),
 
-                    // Description and rating
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          product.description,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge
-                              ?.copyWith(color: Theme.of(context).hintColor),
-                        ),
-                        Icon(Icons.star, color: Colors.yellow[400], size: 20),
-                      ],
-                    ),
+                    //
+                    ProductDescriptionRating(
+                      description: product.description,
+                      rating: '4.5',
+                    )
                   ],
                 ),
               ),

@@ -6,10 +6,10 @@ import '../../domain/entities/product.dart';
 import '../widgets/product_description_rating.dart';
 import '../widgets/product_name_price.dart';
 
-class ProductDetail extends StatelessWidget {
+class ProductDetailPage extends StatelessWidget {
   final Product product;
 
-  const ProductDetail({super.key, required this.product});
+  const ProductDetailPage({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
