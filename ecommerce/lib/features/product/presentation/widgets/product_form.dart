@@ -159,6 +159,7 @@ class _ProductFormState extends State<ProductForm> {
 
   void _addProduct(BuildContext context) {
     // Add
+
     context.read<ProductsBloc>().add(
           ProductsProductAdded(
             Product(
