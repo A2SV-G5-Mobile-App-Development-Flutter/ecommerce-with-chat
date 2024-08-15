@@ -16,4 +16,13 @@ class AuthenticatedUserModel extends AuthenticatedUser {
       accessToken: json['access_token'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'email': email,
+      'name': name,
+      'access_token': accessToken,
+    };
+  }
 }
