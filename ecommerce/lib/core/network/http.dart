@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
@@ -9,29 +10,42 @@ const Map<String, String> _defaultHeaders = {
 
 enum HttpMethod { post, put }
 
-class UploadFile {
+class UploadFile extends Equatable {
   final String key;
   final String path;
 
-  UploadFile({
+  const UploadFile({
     required this.key,
     required this.path,
   });
+
+  @override
+  List<Object> get props => [key, path];
 }
 
-class HttpResponse {
+http.MultipartRequest multipartRequestFactory(HttpMethod method, String url) {
+  return http.MultipartRequest(method.name.toUpperCase(), Uri.parse(url));
+}
+
+class HttpResponse extends Equatable {
   final String reasonPhrase;
   final int statusCode;
   final String body;
 
-  HttpResponse(
+  const HttpResponse(
       {this.reasonPhrase = '', required this.statusCode, required this.body});
+
+  @override
+  List<Object> get props => [reasonPhrase, statusCode, body];
 }
 
 class HttpClient {
   final http.Client client;
+  final http.MultipartRequest Function(HttpMethod, String)
+      multipartRequestFactory;
 
-  HttpClient({
+  const HttpClient({
+    required this.multipartRequestFactory,
     required this.client,
   });
 
@@ -85,8 +99,8 @@ class HttpClient {
     Map<String, String> body,
     List<UploadFile> files,
   ) async {
-    var request =
-        http.MultipartRequest(method.name.toUpperCase(), Uri.parse(url));
+    var request = multipartRequestFactory(method, url);
+
     request.fields.addAll(body);
 
     for (var file in files) {
