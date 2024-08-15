@@ -93,11 +93,22 @@ void main() {
   });
 
   group('createProduct', () {
+    test('should return product when the response code is 201', () async {
+      when(mockHttpClient.uploadFile(
+              '$baseUrl/products', HttpMethod.post, any, any))
+          .thenAnswer((_) async =>
+              HttpResponse(body: tProduct1Fixture, statusCode: 201));
+
+      final result = await productRemoteDataSource.createProduct(tProduct1);
+
+      expect(result, tProduct1);
+    });
+
     test('should throw ServerException when the response code is not 201',
         () async {
-      when(mockHttpClient.post(('$baseUrl/products'), tProduct1.toJson()))
-          .thenAnswer(
-              (_) async => HttpResponse(body: 'Not Found', statusCode: 404));
+      when(mockHttpClient.uploadFile(('$baseUrl/products'), any, any, any))
+          .thenAnswer((_) async =>
+              const HttpResponse(body: 'Not Found', statusCode: 404));
 
       final call = productRemoteDataSource.createProduct;
 
