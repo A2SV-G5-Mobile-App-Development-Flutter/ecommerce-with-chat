@@ -26,13 +26,13 @@ void main() {
       id: 'id', name: tName, email: tEmail, accessToken: tAccessToken);
 
   test('should login using the repository', () async {
-    when(repository.login(tEmail, tPassword))
+    when(repository.login(email: tEmail, password: tPassword))
         .thenAnswer((_) async => const Right(tUser));
 
     final result = await usecase(const LoginParams(tEmail, tPassword));
 
     expect(result, const Right(tUser));
-    verify(repository.login(tEmail, tPassword));
+    verify(repository.login(email: tEmail, password: tPassword));
     verifyNoMoreInteractions(repository);
   });
 }

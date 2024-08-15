@@ -45,17 +45,18 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.AuthenticatedUser>> login(
-    String? email,
-    String? password,
-  ) =>
+  _i4.Future<_i2.Either<_i5.Failure, _i6.AuthenticatedUser>> login({
+    required String? email,
+    required String? password,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #login,
-          [
-            email,
-            password,
-          ],
+          [],
+          {
+            #email: email,
+            #password: password,
+          },
         ),
         returnValue:
             _i4.Future<_i2.Either<_i5.Failure, _i6.AuthenticatedUser>>.value(
@@ -63,28 +64,30 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
           this,
           Invocation.method(
             #login,
-            [
-              email,
-              password,
-            ],
+            [],
+            {
+              #email: email,
+              #password: password,
+            },
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.AuthenticatedUser>>);
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.AuthenticatedUser>> register(
-    String? name,
-    String? email,
-    String? password,
-  ) =>
+  _i4.Future<_i2.Either<_i5.Failure, _i6.AuthenticatedUser>> register({
+    required String? name,
+    required String? email,
+    required String? password,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #register,
-          [
-            name,
-            email,
-            password,
-          ],
+          [],
+          {
+            #name: name,
+            #email: email,
+            #password: password,
+          },
         ),
         returnValue:
             _i4.Future<_i2.Either<_i5.Failure, _i6.AuthenticatedUser>>.value(
@@ -92,11 +95,12 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
           this,
           Invocation.method(
             #register,
-            [
-              name,
-              email,
-              password,
-            ],
+            [],
+            {
+              #name: name,
+              #email: email,
+              #password: password,
+            },
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.AuthenticatedUser>>);

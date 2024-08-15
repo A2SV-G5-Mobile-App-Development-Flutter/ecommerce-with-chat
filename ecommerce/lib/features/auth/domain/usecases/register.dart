@@ -18,7 +18,7 @@ class Register implements UseCase<AuthenticatedUser, RegisterParams> {
     }
 
     return await repository.register(
-        params.name, params.email, params.password);
+        name: params.name, email: params.email, password: params.password);
   }
 }
 

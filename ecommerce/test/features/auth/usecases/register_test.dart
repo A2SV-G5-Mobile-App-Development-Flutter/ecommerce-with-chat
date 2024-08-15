@@ -28,7 +28,7 @@ void main() {
 
   test('should register using the repository', () async {
     // arrange
-    when(repository.register(tName, tEmail, tPassword))
+    when(repository.register(name: tName, email: tEmail, password: tPassword))
         .thenAnswer((_) async => const Right(tUser));
 
     // act
@@ -37,7 +37,8 @@ void main() {
 
     // assert
     expect(result, const Right(tUser));
-    verify(repository.register(tName, tEmail, tPassword));
+    verify(
+        repository.register(name: tName, email: tEmail, password: tPassword));
     verifyNoMoreInteractions(repository);
   });
 
@@ -51,6 +52,7 @@ void main() {
 
     // assert
     expect(result, Left(AuthFailure.passwordTooShort()));
-    verifyNever(repository.register(tName, tEmail, tShortPassword));
+    verifyNever(repository.register(
+        name: tName, email: tEmail, password: tShortPassword));
   });
 }

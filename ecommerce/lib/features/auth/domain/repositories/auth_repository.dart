@@ -5,9 +5,9 @@ import '../entities/authenticated_user.dart';
 
 abstract class AuthRepository {
   Future<Either<Failure, AuthenticatedUser>> login(
-      String email, String password);
+      {required String email, required String password});
   Future<Either<Failure, AuthenticatedUser>> register(
-      String name, String email, String password);
+      {required String name, required String email, required String password});
   Future<Either<Failure, Unit>> logout();
   Future<Either<Failure, AuthenticatedUser>> getCurrentUser();
 }
