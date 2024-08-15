@@ -23,6 +23,10 @@ class AuthFailure extends Failure {
   factory AuthFailure.invalidEmailAndPasswordCombination() {
     return const AuthFailure('Invalid email and password combination');
   }
+
+  factory AuthFailure.tokenExpired() {
+    return const AuthFailure('Token has expired');
+  }
 }
 
 class ServerFailure extends Failure {
