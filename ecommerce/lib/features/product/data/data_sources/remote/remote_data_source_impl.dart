@@ -31,11 +31,9 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
       if (response.statusCode == 201) {
         return ProductModel.fromJson(jsonDecode(response.body)['data']);
       } else {
-        print(response.reasonPhrase);
         throw ServerException(message: response.reasonPhrase);
       }
     } catch (e) {
-      print(e);
       throw ServerException(message: e.toString());
     }
   }

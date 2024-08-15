@@ -33,8 +33,9 @@ class _FakeClient_0 extends _i1.SmartFake implements _i2.Client {
         );
 }
 
-class _FakeHttpResponse_1 extends _i1.SmartFake implements _i3.HttpResponse {
-  _FakeHttpResponse_1(
+class _FakeMultipartRequest_1 extends _i1.SmartFake
+    implements _i2.MultipartRequest {
+  _FakeMultipartRequest_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -43,8 +44,8 @@ class _FakeHttpResponse_1 extends _i1.SmartFake implements _i3.HttpResponse {
         );
 }
 
-class _FakeUri_2 extends _i1.SmartFake implements Uri {
-  _FakeUri_2(
+class _FakeHttpResponse_2 extends _i1.SmartFake implements _i3.HttpResponse {
+  _FakeHttpResponse_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -53,9 +54,19 @@ class _FakeUri_2 extends _i1.SmartFake implements Uri {
         );
 }
 
-class _FakeStreamedResponse_3 extends _i1.SmartFake
+class _FakeUri_3 extends _i1.SmartFake implements Uri {
+  _FakeUri_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeStreamedResponse_4 extends _i1.SmartFake
     implements _i2.StreamedResponse {
-  _FakeStreamedResponse_3(
+  _FakeStreamedResponse_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -82,12 +93,31 @@ class MockHttpClient extends _i1.Mock implements _i3.HttpClient {
       ) as _i2.Client);
 
   @override
+  _i2.MultipartRequest Function(
+    _i3.HttpMethod,
+    String,
+  ) get multipartRequestFactory => (super.noSuchMethod(
+        Invocation.getter(#multipartRequestFactory),
+        returnValue: (
+          _i3.HttpMethod __p0,
+          String __p1,
+        ) =>
+            _FakeMultipartRequest_1(
+          this,
+          Invocation.getter(#multipartRequestFactory),
+        ),
+      ) as _i2.MultipartRequest Function(
+        _i3.HttpMethod,
+        String,
+      ));
+
+  @override
   _i4.Future<_i3.HttpResponse> get(String? url) => (super.noSuchMethod(
         Invocation.method(
           #get,
           [url],
         ),
-        returnValue: _i4.Future<_i3.HttpResponse>.value(_FakeHttpResponse_1(
+        returnValue: _i4.Future<_i3.HttpResponse>.value(_FakeHttpResponse_2(
           this,
           Invocation.method(
             #get,
@@ -109,7 +139,7 @@ class MockHttpClient extends _i1.Mock implements _i3.HttpClient {
             body,
           ],
         ),
-        returnValue: _i4.Future<_i3.HttpResponse>.value(_FakeHttpResponse_1(
+        returnValue: _i4.Future<_i3.HttpResponse>.value(_FakeHttpResponse_2(
           this,
           Invocation.method(
             #post,
@@ -134,7 +164,7 @@ class MockHttpClient extends _i1.Mock implements _i3.HttpClient {
             body,
           ],
         ),
-        returnValue: _i4.Future<_i3.HttpResponse>.value(_FakeHttpResponse_1(
+        returnValue: _i4.Future<_i3.HttpResponse>.value(_FakeHttpResponse_2(
           this,
           Invocation.method(
             #put,
@@ -152,7 +182,7 @@ class MockHttpClient extends _i1.Mock implements _i3.HttpClient {
           #delete,
           [url],
         ),
-        returnValue: _i4.Future<_i3.HttpResponse>.value(_FakeHttpResponse_1(
+        returnValue: _i4.Future<_i3.HttpResponse>.value(_FakeHttpResponse_2(
           this,
           Invocation.method(
             #delete,
@@ -178,7 +208,7 @@ class MockHttpClient extends _i1.Mock implements _i3.HttpClient {
             files,
           ],
         ),
-        returnValue: _i4.Future<_i3.HttpResponse>.value(_FakeHttpResponse_1(
+        returnValue: _i4.Future<_i3.HttpResponse>.value(_FakeHttpResponse_2(
           this,
           Invocation.method(
             #uploadFile,
@@ -240,7 +270,7 @@ class MockMultipartRequest extends _i1.Mock implements _i2.MultipartRequest {
   @override
   Uri get url => (super.noSuchMethod(
         Invocation.getter(#url),
-        returnValue: _FakeUri_2(
+        returnValue: _FakeUri_3(
           this,
           Invocation.getter(#url),
         ),
@@ -325,7 +355,7 @@ class MockMultipartRequest extends _i1.Mock implements _i2.MultipartRequest {
           [],
         ),
         returnValue:
-            _i4.Future<_i2.StreamedResponse>.value(_FakeStreamedResponse_3(
+            _i4.Future<_i2.StreamedResponse>.value(_FakeStreamedResponse_4(
           this,
           Invocation.method(
             #send,

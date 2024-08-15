@@ -45,7 +45,7 @@ void main() {
   const tProducts = [tProduct1, tProduct2];
 
   final tProductsFixture =
-      jsonEncode({'data': jsonDecode(fixture("product_list.json"))});
+      jsonEncode({'data': jsonDecode(fixture('product_list.json'))});
   final tProduct1Fixture =
       jsonEncode({'data': jsonDecode(fixture('product.json'))});
 
@@ -63,7 +63,7 @@ void main() {
     test('should throw ServerException when the response code is not 200',
         () async {
       when(mockHttpClient.get(('$baseUrl/products'))).thenAnswer(
-          (_) async => HttpResponse(body: 'Not Found', statusCode: 404));
+          (_) async => const HttpResponse(body: 'Not Found', statusCode: 404));
 
       final call = productRemoteDataSource.getProducts;
 
@@ -84,7 +84,7 @@ void main() {
     test('should throw ServerException when the response code is not 200',
         () async {
       when(mockHttpClient.get(('$baseUrl/products/$tProductId1'))).thenAnswer(
-          (_) async => HttpResponse(body: 'Not Found', statusCode: 404));
+          (_) async => const HttpResponse(body: 'Not Found', statusCode: 404));
 
       final call = productRemoteDataSource.getProduct;
 
@@ -132,8 +132,8 @@ void main() {
         () async {
       when(mockHttpClient.put(
               ('$baseUrl/products/$tProductId1'), tProduct1.toJson()))
-          .thenAnswer(
-              (_) async => HttpResponse(body: 'Not Found', statusCode: 404));
+          .thenAnswer((_) async =>
+              const HttpResponse(body: 'Not Found', statusCode: 404));
 
       final call = productRemoteDataSource.updateProduct;
 
@@ -156,8 +156,8 @@ void main() {
     test('should throw ServerException when the response code is not 200',
         () async {
       when(mockHttpClient.delete(('$baseUrl/products/$tProductId1')))
-          .thenAnswer(
-              (_) async => HttpResponse(body: 'Not Found', statusCode: 404));
+          .thenAnswer((_) async =>
+              const HttpResponse(body: 'Not Found', statusCode: 404));
 
       final call = productRemoteDataSource.deleteProduct;
 
