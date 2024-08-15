@@ -21,7 +21,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
       loginModel.toJson(),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       return AccessToken.fromJson(jsonDecode(response.body)['data']);
     } else if (response.statusCode == 401) {
       throw AuthenticationException.invalidEmailAndPasswordCombination();
