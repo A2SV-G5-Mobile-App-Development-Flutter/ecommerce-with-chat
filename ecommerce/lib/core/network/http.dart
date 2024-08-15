@@ -49,8 +49,12 @@ class HttpClient {
     required this.client,
   });
 
+  set authToken(String token) {
+    _defaultHeaders['Authorization'] = 'Bearer $token';
+  }
+
   Future<HttpResponse> get(String url) async {
-    final response = await client.get(Uri.parse(url));
+    final response = await client.get(Uri.parse(url), headers: _defaultHeaders);
 
     return HttpResponse(
       statusCode: response.statusCode,
@@ -85,7 +89,8 @@ class HttpClient {
   }
 
   Future<HttpResponse> delete(String url) async {
-    final response = await client.delete(Uri.parse(url));
+    final response =
+        await client.delete(Uri.parse(url), headers: _defaultHeaders);
 
     return HttpResponse(
       statusCode: response.statusCode,
@@ -100,6 +105,8 @@ class HttpClient {
     List<UploadFile> files,
   ) async {
     var request = multipartRequestFactory(method, url);
+
+    request.headers.addEntries(_defaultHeaders.entries);
 
     request.fields.addAll(body);
 
