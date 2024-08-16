@@ -4,10 +4,6 @@ import 'package:equatable/equatable.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
-const Map<String, String> _defaultHeaders = {
-  'Content-Type': 'application/json; charset=UTF-8'
-};
-
 enum HttpMethod { post, put }
 
 class UploadFile extends Equatable {
@@ -44,7 +40,11 @@ class HttpClient {
   final http.MultipartRequest Function(HttpMethod, String)
       multipartRequestFactory;
 
-  const HttpClient({
+  final _defaultHeaders = {
+    'Content-Type': 'application/json; charset=UTF-8',
+  };
+
+  HttpClient({
     required this.multipartRequestFactory,
     required this.client,
   });
