@@ -43,7 +43,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onLoginRequested(
       AuthLoginRequested event, Emitter<AuthState> emit) async {
-    emit(const AuthLoadInProgress());
+    emit(const AuthLoginInProgress());
 
     final result = await login(LoginParams(event.email, event.password));
 
@@ -58,7 +58,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onRegisterRequested(
       AuthRegisterRequested event, Emitter<AuthState> emit) async {
-    emit(const AuthLoadInProgress());
+    emit(const AuthRegisterInProgress());
 
     final result =
         await register(RegisterParams(event.name, event.email, event.password));
@@ -74,7 +74,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onLogoutRequested(
       AuthLogoutRequested event, Emitter<AuthState> emit) async {
-    emit(const AuthLoadInProgress());
+    emit(const AuthLogoutInProgress());
 
     final result = await logout(NoParams());
 

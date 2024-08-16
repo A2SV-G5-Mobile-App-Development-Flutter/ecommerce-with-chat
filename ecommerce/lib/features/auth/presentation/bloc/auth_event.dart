@@ -7,7 +7,9 @@ sealed class AuthEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class AuthLoadRequested extends AuthEvent {}
+class AuthLoadRequested extends AuthEvent {
+  const AuthLoadRequested();
+}
 
 class AuthLoginRequested extends AuthEvent {
   final String email;

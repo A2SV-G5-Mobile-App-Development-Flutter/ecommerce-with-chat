@@ -58,6 +58,18 @@ class AuthLoginSuccess extends AuthState {
   const AuthLoginSuccess(this.user);
 }
 
+class AuthLoginInProgress extends AuthState {
+  const AuthLoginInProgress();
+}
+
+class AuthRegisterInProgress extends AuthState {
+  const AuthRegisterInProgress();
+}
+
+class AuthLogoutInProgress extends AuthState {
+  const AuthLogoutInProgress();
+}
+
 class AuthLoginFailure extends AuthState {
   final String message;
 
