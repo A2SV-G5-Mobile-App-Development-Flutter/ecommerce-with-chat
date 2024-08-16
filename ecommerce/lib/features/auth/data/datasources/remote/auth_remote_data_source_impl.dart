@@ -53,7 +53,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     );
 
     if (response.statusCode == 200) {
-      return UserModel.fromJson(jsonDecode(response.body));
+      return UserModel.fromJson(jsonDecode(response.body)['data']);
     } else if (response.statusCode == 401) {
       throw AuthenticationException.tokenExpired();
     } else {
