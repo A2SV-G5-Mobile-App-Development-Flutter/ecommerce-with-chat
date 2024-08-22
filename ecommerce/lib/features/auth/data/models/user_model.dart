@@ -14,4 +14,20 @@ class UserModel extends User {
       name: json['name'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'email': email,
+      'name': name,
+    };
+  }
+
+  static UserModel fromEntity(User user) {
+    return UserModel(
+      id: user.id,
+      email: user.email,
+      name: user.name,
+    );
+  }
 }
