@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
+import '../../../auth/domain/entities/user.dart';
 import 'chat.dart';
-import 'user.dart';
 
 class Message extends Equatable {
   final String id;

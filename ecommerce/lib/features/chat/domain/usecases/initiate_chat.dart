@@ -3,8 +3,9 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/usecase.dart';
+import '../../../auth/domain/entities/user.dart';
 import '../entities/chat.dart';
-import '../entities/user.dart';
+
 import '../repositories/chat_repository.dart';
 
 class InitiateChat implements UseCase<Chat, InitiateChatParams> {

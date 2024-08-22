@@ -1,14 +1,10 @@
-import 'package:equatable/equatable.dart';
+import '../../domain/entities/user.dart';
 
-class UserModel extends Equatable {
-  final String id;
-  final String email;
-  final String name;
-
+class UserModel extends User {
   const UserModel({
-    required this.id,
-    required this.email,
-    required this.name,
+    required super.id,
+    required super.email,
+    required super.name,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -18,7 +14,4 @@ class UserModel extends Equatable {
       name: json['name'],
     );
   }
-
-  @override
-  List<Object> get props => [id, email, name];
 }
