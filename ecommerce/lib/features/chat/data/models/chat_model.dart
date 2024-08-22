@@ -10,7 +10,7 @@ class ChatModel extends Chat {
 
   factory ChatModel.fromJson(Map<String, dynamic> json) {
     return ChatModel(
-      id: json['id'],
+      id: json['_id'],
       user1: UserModel.fromJson(json['user1']),
       user2: UserModel.fromJson(json['user2']),
     );
@@ -18,7 +18,7 @@ class ChatModel extends Chat {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      '_id': id,
       'user1': UserModel.fromEntity(user1).toJson(),
       'user2': UserModel.fromEntity(user2).toJson(),
     };
