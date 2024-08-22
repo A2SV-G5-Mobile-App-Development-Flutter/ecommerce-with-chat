@@ -14,7 +14,11 @@ class ChatCard extends StatelessWidget {
       onTap: () {
         onChatSelected(chat);
       },
-      child: Card(child: Text('${chat.user1.name} <> ${chat.user2.name}')),
+      child: Card(
+          child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text('${chat.user1.name} <> ${chat.user2.name}'),
+      )),
     );
   }
 }

@@ -2,6 +2,8 @@ import 'package:go_router/go_router.dart';
 import '../../../features/auth/presentation/pages/login.dart';
 import '../../../features/auth/presentation/pages/register.dart';
 import '../../../features/auth/presentation/pages/splash_screen.dart';
+import '../../../features/chat/domain/entities/chat.dart';
+import '../../../features/chat/presentation/pages/inbox.dart';
 import '../../../features/chat/presentation/pages/my_chats.dart';
 import '../../../features/product/domain/entities/product.dart';
 import '../../../features/product/presentation/pages/pages.dart';
@@ -55,13 +57,13 @@ final router = GoRouter(
     ),
 
     //! Chat -------------------------------------------------------------------
-    // GoRoute(
-    //   path: Routes.chatInbox,
-    //   builder: (context, state) {
-    //     final chat = state.extra as Chat;
-    //     return ChatInboxPage(chat: chat);
-    //   },
-    // )
+    GoRoute(
+      path: Routes.chatInbox,
+      builder: (context, state) {
+        final chat = state.extra as Chat;
+        return ChatInboxPage(chat: chat);
+      },
+    ),
     GoRoute(
       path: Routes.chats,
       builder: (context, state) => const ChatsPage(),
