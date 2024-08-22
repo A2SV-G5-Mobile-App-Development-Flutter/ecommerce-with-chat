@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc_observer.dart';
 import 'core/presentation/routes/router.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
+import 'features/chat/presentation/bloc/chat/chat_bloc.dart';
 import 'features/product/presentation/bloc/product/product_bloc.dart';
 import 'injection_container.dart' as di;
 
@@ -32,6 +33,9 @@ class App extends StatelessWidget {
           create: (context) =>
               di.serviceLocator<AuthBloc>()..add(const AuthLoadRequested()),
         ),
+        BlocProvider(
+            create: (context) =>
+                di.serviceLocator<ChatsBloc>()..add(ChatsLoadRequested())),
       ],
       child: MaterialApp.router(
         title: 'Products',

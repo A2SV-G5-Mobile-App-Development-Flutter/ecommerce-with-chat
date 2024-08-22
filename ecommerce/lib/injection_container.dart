@@ -16,6 +16,15 @@ import 'features/auth/domain/usecases/login.dart';
 import 'features/auth/domain/usecases/logout.dart';
 import 'features/auth/domain/usecases/register.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
+import 'features/chat/data/datasources/local/chat_local_data_source.dart';
+import 'features/chat/data/datasources/local/chat_local_data_source_impl.dart';
+import 'features/chat/data/datasources/remote/chat_remote_data_source.dart';
+import 'features/chat/data/datasources/remote/chat_remote_data_source_impl.dart';
+import 'features/chat/data/repositories/chat_repository_impl.dart';
+import 'features/chat/domain/repositories/chat_repository.dart';
+import 'features/chat/domain/usecases/get_my_chats.dart';
+import 'features/chat/domain/usecases/initiate_chat.dart';
+import 'features/chat/presentation/bloc/chat/chat_bloc.dart';
 import 'features/product/data/data_sources/local/local_data_source.dart';
 import 'features/product/data/data_sources/local/local_data_source_impl.dart';
 import 'features/product/data/data_sources/remote/remote_data_source.dart';
@@ -88,6 +97,31 @@ Future<void> init() async {
       () => AuthLocalDataSourceImpl(sharedPreferences: serviceLocator()));
   serviceLocator.registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(client: serviceLocator()));
+
+  //! Features
+  //! Feature_#3 (Chat) --------------------------------------------------------
+
+  // Bloc
+  serviceLocator.registerFactory(() => ChatsBloc(
+        getMyChats: serviceLocator(),
+        initiateChat: serviceLocator(),
+      ));
+
+  // Use cases
+  serviceLocator.registerLazySingleton(() => GetMyChats(serviceLocator()));
+  serviceLocator.registerLazySingleton(() => InitiateChat(serviceLocator()));
+
+  // Repository
+  serviceLocator.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(
+      networkInfo: serviceLocator(),
+      remoteDataSource: serviceLocator(),
+      localDataSource: serviceLocator()));
+
+  // Data
+  serviceLocator.registerLazySingleton<ChatLocalDataSource>(
+      () => ChatLocalDataSourceImpl(sharedPreferences: serviceLocator()));
+  serviceLocator.registerLazySingleton<ChatRemoteDataSource>(
+      () => ChatRemoteDataSourceImpl(client: serviceLocator()));
 
   //! Core ---------------------------------------------------------------------
   serviceLocator.registerLazySingleton<NetworkInfo>(
