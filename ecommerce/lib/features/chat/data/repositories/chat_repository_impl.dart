@@ -33,9 +33,13 @@ class ChatRepositoryImpl extends ChatRepository {
   }
 
   @override
-  Stream<Either<Failure, Message>> getChatMessages(String id) {
-    throw UnimplementedError();
-    // return _chatRemoteDataSource.getChatMessages(id);
+  Future<Stream<Either<Failure, Message>>> getChatMessages(String id) async {
+    if (await _networkInfo.isConnected) {
+      final so = _chatRemoteDataSource.getChatMessages(id);
+      return so.map((event) => Right(event));
+    } else {
+      return Stream.value(const Left(NetworkFailure()));
+    }
   }
 
   @override
