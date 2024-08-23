@@ -7,13 +7,17 @@ class MessageModel extends Message {
     required super.id,
     required super.chat,
     required super.sender,
+    required super.type,
+    required super.content,
   });
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
     return MessageModel(
-      id: json['id'],
+      id: json['_id'],
       chat: ChatModel.fromJson(json['chat']),
       sender: UserModel.fromJson(json['sender']),
+      type: json['type'] ?? 'text',
+      content: json['content'],
     );
   }
 
