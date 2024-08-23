@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-
-import '../../../../core/presentation/routes/routes.dart';
 
 import '../../../../core/presentation/widgets/snackbar.dart';
 import '../../domain/entities/chat.dart';
-import '../bloc/chat/chat_bloc.dart';
-import '../widgets/chat_card.dart';
+import '../bloc/message/message_bloc.dart';
+
+import '../widgets/message_card.dart';
 
 class ChatInboxPage extends StatelessWidget {
   final Chat chat;
@@ -15,10 +13,12 @@ class ChatInboxPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ChatsBloc, ChatsState>(
+    context.read<MessageBloc>().add(MessageLoadRequested(chat));
+
+    return BlocListener<MessageBloc, MessageState>(
       listener: (context, state) {
-        if (state is ChatsFailure) {
-          showError(context, state.message);
+        if (state is MessageLoadFailure) {
+          showError(context, 'Loading failed');
         }
       },
       child: Scaffold(
@@ -32,22 +32,22 @@ class ChatInboxPage extends StatelessWidget {
               children: [
                 // Message List
                 Expanded(
-                  child: BlocBuilder<ChatsBloc, ChatsState>(
+                  child: BlocBuilder<MessageBloc, MessageState>(
                     builder: (context, state) {
                       return RefreshIndicator(
                         onRefresh: () async {
-                          context.read<ChatsBloc>().add(ChatsLoadRequested());
+                          context
+                              .read<MessageBloc>()
+                              .add(MessageLoadRequested(chat));
                         },
                         child: ListView.builder(
-                          itemCount: state.chats.length,
+                          itemCount: state.messages.length,
                           itemBuilder: (context, index) {
-                            final chat = state.chats[index];
+                            final message = state.messages[index];
 
-                            return ChatCard(
-                                chat: chat,
-                                onChatSelected: (chat) {
-                                  context.push(Routes.chatInbox, extra: chat);
-                                });
+                            return MessageCard(
+                              message: message,
+                            );
                           },
                         ),
                       );
