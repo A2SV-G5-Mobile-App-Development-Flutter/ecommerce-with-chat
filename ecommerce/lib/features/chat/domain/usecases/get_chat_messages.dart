@@ -10,8 +10,9 @@ class GetChatMessages {
 
   const GetChatMessages(this.repository);
 
-  Stream<Either<Failure, Message>> call(GetChatMessagesParams params) {
-    return repository.getChatMessages(params.id);
+  Future<Stream<Either<Failure, Message>>> call(
+      GetChatMessagesParams params) async {
+    return await repository.getChatMessages(params.id);
   }
 }
 
