@@ -5,16 +5,15 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/usecase.dart';
 import '../entities/chat.dart';
 
-import '../entities/message.dart';
 import '../repositories/chat_repository.dart';
 
-class SendMessage implements UseCase<Message, SendMessageParams> {
+class SendMessage implements UseCase<Unit, SendMessageParams> {
   final ChatRepository repository;
 
   const SendMessage(this.repository);
 
   @override
-  Future<Either<Failure, Message>> call(SendMessageParams params) async {
+  Future<Either<Failure, Unit>> call(SendMessageParams params) async {
     return await repository.sendMessage(
         params.chat.id, params.message, params.type);
   }

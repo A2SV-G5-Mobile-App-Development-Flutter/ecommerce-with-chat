@@ -18,12 +18,13 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     required this.getChatMessages,
     required this.sendMessage,
   }) : super(const MessageInitial([])) {
-    on<MessageLoadRequested>(_onLoadMessageRequested,
+    on<MessageSocketConnectionRequested>(_onLoadMessageRequested,
         transformer: restartable());
+    on<MessageSent>(_onSendMessageRequested);
   }
 
-  Future<void> _onLoadMessageRequested(
-      MessageLoadRequested event, Emitter<MessageState> emit) async {
+  Future<void> _onLoadMessageRequested(MessageSocketConnectionRequested event,
+      Emitter<MessageState> emit) async {
     emit(const MessagesMessageLoadInProgress([]));
 
     final messages =
@@ -33,15 +34,25 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
       final result = data.fold((l) {
         return MessageLoadFailure([...state.messages]);
       }, (r) {
-        print('[debug] ${state.messages.map((e) => e.id)}');
-        print('[debug] ${r.id}');
-        print(
-            '[debug] ${state.messages.map((e) => e.id).contains(r.id)} ${state.messages.length}');
-        print('[debug]');
+        if (state.messages.isNotEmpty &&
+            state.messages[state.messages.length - 1] == r) {
+          return MessageLoadSuccess(state.messages);
+        }
         return MessageLoadSuccess([...state.messages, r]);
       });
 
       return result;
     });
+  }
+
+  Future<void> _onSendMessageRequested(
+      MessageSent event, Emitter<MessageState> emit) async {
+    emit(MessagesMessageLoadInProgress(state.messages));
+
+    final result = await sendMessage(
+        SendMessageParams(event.chat, event.content, event.type));
+
+    emit(result.fold((l) => MessageSentFailure(state.messages),
+        (r) => MessageSentSuccess(state.messages)));
   }
 }

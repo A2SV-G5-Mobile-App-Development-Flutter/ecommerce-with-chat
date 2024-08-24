@@ -7,8 +7,20 @@ abstract class MessageEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class MessageLoadRequested extends MessageEvent {
+class MessageSocketConnectionRequested extends MessageEvent {
   final Chat chat;
 
-  const MessageLoadRequested(this.chat);
+  const MessageSocketConnectionRequested(this.chat);
+}
+
+class MessageSent extends MessageEvent {
+  final Chat chat;
+  final String content;
+  final String type;
+
+  const MessageSent(
+    this.chat,
+    this.content,
+    this.type,
+  );
 }

@@ -6,6 +6,6 @@ abstract class ChatRemoteDataSource {
   Future<void> deleteChat(String id);
   Future<ChatModel> getOrCreateChat(UserModel receiver);
   Future<List<ChatModel>> getUserChats();
-  Future<MessageModel> sendMessage(String chat, String message, String type);
+  void sendMessage(String chat, String message, String type);
   Stream<MessageModel> getChatMessages(String id);
 }

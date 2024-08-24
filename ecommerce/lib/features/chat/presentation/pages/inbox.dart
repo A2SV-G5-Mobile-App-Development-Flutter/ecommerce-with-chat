@@ -8,17 +8,22 @@ import '../bloc/message/message_bloc.dart';
 import '../widgets/message_card.dart';
 
 class ChatInboxPage extends StatelessWidget {
+  final TextEditingController _messageController = TextEditingController();
   final Chat chat;
-  const ChatInboxPage({super.key, required this.chat});
+  ChatInboxPage({super.key, required this.chat});
 
   @override
   Widget build(BuildContext context) {
-    context.read<MessageBloc>().add(MessageLoadRequested(chat));
+    context.read<MessageBloc>().add(MessageSocketConnectionRequested(chat));
 
     return BlocListener<MessageBloc, MessageState>(
       listener: (context, state) {
         if (state is MessageLoadFailure) {
           showError(context, 'Loading failed');
+        } else if (state is MessageSentSuccess) {
+          _messageController.clear();
+        } else if (state is MessageSentFailure) {
+          showError(context, 'Sending failed');
         }
       },
       child: Scaffold(
@@ -38,7 +43,7 @@ class ChatInboxPage extends StatelessWidget {
                         onRefresh: () async {
                           context
                               .read<MessageBloc>()
-                              .add(MessageLoadRequested(chat));
+                              .add(MessageSocketConnectionRequested(chat));
                         },
                         child: ListView.builder(
                           itemCount: state.messages.length,
@@ -57,10 +62,19 @@ class ChatInboxPage extends StatelessWidget {
 
                 // Message Input
                 TextField(
+                  controller: _messageController,
                   decoration: InputDecoration(
                     hintText: 'Type a message',
                     suffixIcon: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.read<MessageBloc>().add(
+                              MessageSent(
+                                chat,
+                                _messageController.text,
+                                'text',
+                              ),
+                            );
+                      },
                       icon: const Icon(
                         Icons.send,
                         color: Colors.indigoAccent,

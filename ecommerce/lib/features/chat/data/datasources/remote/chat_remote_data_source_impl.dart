@@ -62,7 +62,7 @@ class ChatRemoteDataSourceImpl extends ChatRemoteDataSource {
       log('Disconnected from the socket server');
     });
 
-    client.socket.on('message:sent', (data) {
+    client.socket.on('message:delivered', (data) {
       MessageModel message = MessageModel.fromJson(data);
       streamSocket.addResponse(message);
     });
@@ -109,7 +109,11 @@ class ChatRemoteDataSourceImpl extends ChatRemoteDataSource {
   }
 
   @override
-  Future<MessageModel> sendMessage(String chat, String message, String type) {
-    throw UnimplementedError();
+  void sendMessage(String chat, String message, String type) {
+    client.socket.emit('message:send', {
+      'chatId': chat,
+      'content': message,
+      'type': type,
+    });
   }
 }

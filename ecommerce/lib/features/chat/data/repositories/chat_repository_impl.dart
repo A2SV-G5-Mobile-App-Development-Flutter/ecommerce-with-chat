@@ -62,11 +62,11 @@ class ChatRepositoryImpl extends ChatRepository {
   }
 
   @override
-  Future<Either<Failure, Message>> sendMessage(
+  Future<Either<Failure, Unit>> sendMessage(
       String chatId, String message, String type) async {
     if (await _networkInfo.isConnected) {
-      return Right(
-          await _chatRemoteDataSource.sendMessage(chatId, message, type));
+      _chatRemoteDataSource.sendMessage(chatId, message, type);
+      return const Right(unit);
     } else {
       return const Left(NetworkFailure());
     }

@@ -34,8 +34,15 @@ class MessageLoadFailure extends MessageState {
   List<Object> get props => [messages];
 }
 
-class MessageReceived extends MessageState {
-  const MessageReceived(super.messages);
+class MessageSentSuccess extends MessageState {
+  const MessageSentSuccess(super.messages);
+
+  @override
+  List<Object> get props => [messages];
+}
+
+class MessageSentFailure extends MessageState {
+  const MessageSentFailure(super.messages);
 
   @override
   List<Object> get props => [messages];
