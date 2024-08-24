@@ -15,7 +15,7 @@ class SplashScreen extends StatelessWidget {
         child: BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state is AuthLoadSuccess) {
-                context.push(Routes.chats);
+                context.push(Routes.home);
               } else if (state is AuthLoadFailure) {
                 context.push(Routes.login);
               }
